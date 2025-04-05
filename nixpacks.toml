@@ -1,21 +1,12 @@
 [phases.setup]
-nixPkgs = [
-  "php82",
-  "php82Packages.composer",
-  "nodejs_18",
-  "yarn",
-  "php82Extensions.mbstring",
-  "php82Extensions.openssl",
-  "php82Extensions.pdo",
-  "php82Extensions.tokenizer",
-  "php82Extensions.xml",
-  "php82Extensions.ctype"
-]
+nixPkgs = ["php82", "php82Packages.composer", "nodejs_18", "yarn"]
 
 [phases.build]
 cmds = [
-  "composer install --no-dev --optimize-autoloader"
+  "composer install --no-dev --optimize-autoloader",
+  "php artisan config:cache",
+  "php artisan route:cache"
 ]
 
-[start]
-cmd = "php artisan serve --host=0.0.0.0 --port=${PORT}"
+[phases.start]
+cmds = ["php artisan serve --host=0.0.0.0 --port=${PORT}"]
